@@ -23,7 +23,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bilalov.testapplicationforappricot.R
 import com.bilalov.testapplicationforappricot.ui.theme.TestApplicationForAppricotTheme
-import com.bilalov.testapplicationforappricot.viewmodel.MainViewModel
+import com.bilalov.testapplicationforappricot.viewModel.MainViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.delay
@@ -41,7 +41,6 @@ fun ErrorView(url: String, context: Application, viewModel: MainViewModel) {
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectDragGesturesAfterLongPress { _, dragAmount ->
-                        Log.e("TTT_Scan", "$dragAmount")
                     }
                 }
         ) {

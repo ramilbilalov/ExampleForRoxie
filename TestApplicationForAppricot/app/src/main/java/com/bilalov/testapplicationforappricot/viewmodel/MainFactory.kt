@@ -1,4 +1,4 @@
-package com.bilalov.testapplicationforappricot.viewmodel
+package com.bilalov.testapplicationforappricot.viewModel
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

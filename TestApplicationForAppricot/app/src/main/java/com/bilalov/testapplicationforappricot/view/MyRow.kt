@@ -16,13 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bilalov.testapplicationforappricot.RowProfile
+import com.bilalov.testapplicationforappricot.data.request.rowData.RowInfo
 import com.bilalov.testapplicationforappricot.navigation.Screen
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun MyRow(item: RowProfile) {
+fun MyRow(item: RowInfo) {
     val isoReformat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT)
     val date = item.orderTime.replace("\\+0([0-9])\\:00".toRegex(), "+0$100")
     val price =

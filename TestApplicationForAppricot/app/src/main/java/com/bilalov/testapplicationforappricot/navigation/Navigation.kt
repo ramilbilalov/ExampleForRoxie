@@ -7,10 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import com.bilalov.testapplicationforappricot.request.Response
+import com.bilalov.testapplicationforappricot.data.request.Response
 import com.bilalov.testapplicationforappricot.view.DefaultPreview
 import com.bilalov.testapplicationforappricot.view.SecondScreen
-import com.bilalov.testapplicationforappricot.viewmodel.MainViewModel
 
 @Composable
 fun Navigation(

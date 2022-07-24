@@ -1,11 +1,11 @@
-package com.bilalov.testapplicationforappricot.viewmodel
+package com.bilalov.testapplicationforappricot.viewModel
 
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bilalov.testapplicationforappricot.request.Response
+import com.bilalov.testapplicationforappricot.data.request.Response
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.isSuccessful
 import com.google.gson.Gson

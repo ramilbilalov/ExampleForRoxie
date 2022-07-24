@@ -1,4 +1,4 @@
-package com.bilalov.testapplicationforappricot.request
+package com.bilalov.testapplicationforappricot.data.request
 
 data class ResponseItems(
     val endAddress: EndAddress,

@@ -13,15 +13,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.bilalov.testapplicationforappricot.data.request.Response
 import com.bilalov.testapplicationforappricot.navigation.Navigation
-import com.bilalov.testapplicationforappricot.request.Response
 import com.bilalov.testapplicationforappricot.ui.theme.TestApplicationForAppricotTheme
 import com.bilalov.testapplicationforappricot.view.ErrorView
 import com.bilalov.testapplicationforappricot.view.LoaderView
-import com.bilalov.testapplicationforappricot.viewmodel.MainFactory
-import com.bilalov.testapplicationforappricot.viewmodel.MainViewModel
+import com.bilalov.testapplicationforappricot.viewModel.MainFactory
+import com.bilalov.testapplicationforappricot.viewModel.MainViewModel
 
 
 var size: String = ""
@@ -81,19 +80,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
-class RowProfile(
-    var startAddress: String,
-    var vehicleName: String,
-    var orderTime: String,
-    var endAddress: String,
-    var priceAmount: String,
-    var priceCurrency: String,
-    var photo: String,
-    var navController: NavController,
-    var vehicleCar: String
-)
 
 

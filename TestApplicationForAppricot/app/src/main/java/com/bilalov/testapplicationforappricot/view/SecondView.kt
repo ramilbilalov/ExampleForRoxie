@@ -2,10 +2,8 @@ package com.bilalov.testapplicationforappricot.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.ConnectivityManager
 import android.util.Base64
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -24,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bilalov.testapplicationforappricot.R
+import com.bilalov.testapplicationforappricot.connectionChecker.ConnectionCheckerImpl
 import com.bilalov.testapplicationforappricot.settingsStorage.SettingCheckerStorageImpl
 import kotlinx.coroutines.*
 import java.io.ByteArrayOutputStream
@@ -39,7 +37,10 @@ import java.net.URL
 
 
 var bitmapImage: MutableState<Bitmap?> = mutableStateOf(null)
+
 private val storage = SettingCheckerStorageImpl
+private val connection = ConnectionCheckerImpl
+
 
 @OptIn(DelicateCoroutinesApi::class)
 @SuppressLint("CoroutineCreationDuringComposition", "UnrememberedMutableState")
@@ -58,10 +59,8 @@ fun SecondScreen(
     val sharedPreferences = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()
 
-    Log.e("CHECK_2", "${sharedPreferences.all.containsKey(imageName)}")
 
-
-    if (isOnline(context) && !sharedPreferences.all.containsKey(imageName)) {
+    if (connection.isOnline(context) && !sharedPreferences.all.containsKey(imageName)) {
 
         GlobalScope.launch(Dispatchers.IO) {
             val imageUrl = URL("https://www.roxiemobile.ru/careers/test/images/$imageName")
@@ -86,7 +85,10 @@ fun SecondScreen(
         }
 
     } else {
-        loadData(mSharedPreferences = sharedPreferences, imageName, context)
+        storage.loadData(mSharedPreferences = sharedPreferences, imageName, context, storage)
+        storage.setChecked(newValue = false)
+        storage.saveChanges()
+        storage.init(context)
     }
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
@@ -104,9 +106,7 @@ fun SecondScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Log.e("CHECK_1", "${sharedPreferences.all.containsKey(imageName)}")
-                    Log.e("CHECK_Storage", "${storage.getChecked()}")
-                    if (!sharedPreferences.all.containsKey(imageName) && isOnline(context)) {
+                    if (!sharedPreferences.all.containsKey(imageName) && connection.isOnline(context)) {
                         bitmapState.value?.asImageBitmap()?.let {
                             Image(
                                 bitmap = it,
@@ -121,7 +121,7 @@ fun SecondScreen(
                                 editor.remove(imageName).apply()
                             }
                         }
-                    } else if (!isOnline(context)) {
+                    } else if (!connection.isOnline(context)) {
                         val image: Painter = painterResource(id = R.drawable.error_img)
                         Image(
                             painter = image,
@@ -175,27 +175,5 @@ fun SecondScreen(
         }
     }
 }
-
-private fun isOnline(context: Context): Boolean {
-    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val netInfo = cm.activeNetworkInfo
-    return netInfo != null && netInfo.isConnectedOrConnecting
-}
-
-private fun loadData(
-    mSharedPreferences: SharedPreferences,
-    imageName: String?,
-    context: Context,
-) {
-    if (mSharedPreferences.contains("$imageName")) {
-        val encodedImage: String? = mSharedPreferences.getString("$imageName", "null")
-        val b: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
-        bitmapImage.value = BitmapFactory.decodeByteArray(b, 0, b.size)
-        storage.setChecked(newValue = false)
-        storage.saveChanges()
-        storage.init(context)
-    }
-}
-
 
 
